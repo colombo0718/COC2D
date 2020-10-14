@@ -57,7 +57,7 @@
 
         var craft = new Konva.Group();
         craft.radius=0
-        craft.mass=model.unite.length        
+        craft.mass=model.unite.length      
         craft.massCent=new Victor()
 
         craft.forceSum=new Victor()  
@@ -106,7 +106,6 @@
         for(var i=0;i<model.unite.length;i++){
           var p=new Victor(model.unite[i].x,model.unite[i].y);
           craft.inertia+=p.distanceSq(craft.massCent)
-          // console.log(craft.inertia)
         }
         console.log(craft.mass+"\n"+craft.radius+"\n"+craft.massCent.toString()+"\n"+craft.inertia)
         // ------------------------------------------------
@@ -125,11 +124,10 @@
             closed: true,
             visible:false
           });
-          fire.force=new Victor(-100*model.engines[i].len,0)
+          fire.force=new Victor(-200*model.engines[i].len,0)
           fire.force.rotate(0.5*Math.PI*model.engines[i].dir)
           var p = new Victor(model.engines[i].x,model.engines[i].y)
           fire.torqu=p.cross(fire.force)
-          console.log(fire.torqu)
 
           craft.add(fire);
         }
@@ -532,6 +530,22 @@
         // if(UI.isPress('d')){craft.jet('right',true)}
         // else{craft.jet('right',false)} 
 
+        // if(UI.isPress('a')){
+        //   craft.jet('bLeft',true)
+        //   craft.jet('fRight',true)
+        // }else{
+        //   craft.jet('bLeft',false)
+        //   craft.jet('fRight',false)
+        // }
+        
+        // if(UI.isPress('d')){
+        //   craft.jet('fLeft',true)
+        //   craft.jet('bRight',true)
+        // }else{
+        //   craft.jet('fLeft',false)
+        //   craft.jet('bRight',false)
+        // }
+
         if(UI.isPress('w')){
           craft.jet('Major',true)
           craft.jet('Left',true)
@@ -566,12 +580,9 @@
           craft.jet('br',false)
         }
 
-
-
-
         if(pg<runway.checkpoint.length){
           runway.plotGuideLine(craft,pg)
-          runway.plotOrbitLine(craft)
+          // runway.plotOrbitLine(craft)
           if(runway.check(pg,craft,1)){
             runway.checkpoint[pg].visible(false)
             game.progress+=1

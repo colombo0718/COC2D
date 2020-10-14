@@ -104,18 +104,20 @@
           // Right
           {x: 4,y:-1,color:"#f0f"},
           {x: 4,y:-2,color:"#f0f"},
-          {x: 4,y:-3,color:"#f0f"},
+          {x: 5,y:-2,color:"#f0f"},
+          {x: 5,y:-3,color:"#f0f"},
           // Left
           {x:-4,y:-1,color:"#f0f"},
           {x:-4,y:-2,color:"#f0f"},
-          {x:-4,y:-3,color:"#f0f"},
+          {x:-5,y:-2,color:"#f0f"},
+          {x:-5,y:-3,color:"#f0f"},
         ],
         engines:[
           {name:"Major"   ,len:3,dir:3,x: 0,y:-5},
           {name:"mr" ,len:2,dir:3,x: 1,y:-4},
           {name:"ml" ,len:2,dir:3,x:-1,y:-4},
-          {name:"Left" ,len:3,dir:3,x: 4,y:-4},
-          {name:"Right",len:3,dir:3,x:-4,y:-4},
+          {name:"Left" ,len:2,dir:3,x: 4,y:-3},
+          {name:"Right",len:2,dir:3,x:-4,y:-3},
           {name:"br" ,len:2,dir:1,x: 2,y: 0},
           {name:"bl" ,len:2,dir:1,x:-2,y: 0},
         ]
