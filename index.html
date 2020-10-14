@@ -156,13 +156,14 @@
           // console.log(craft.forceSum,craft.torquSum)
           craft.accelera = craft.forceSum.clone().divideScalar(craft.mass)
           craft.rotaAcce = craft.torquSum/craft.inertia
+          craft.accelera.rotateDeg(craft.rotation())
           craft.velocity = craft.velocity.add(craft.accelera.clone().multiplyScalar(dt))
           craft.rotaVelo+= craft.rotaAcce*dt
           craft.displace = craft.velocity.clone().multiplyScalar(dt)
-          craft.rotation(craft.rotation()+craft.rotaVelo*dt)
-          craft.displace.rotateDeg(craft.rotation())
           craft.x(craft.x()+craft.displace.x)
           craft.y(craft.y()+craft.displace.y)
+          craft.rotation(craft.rotation()+craft.rotaVelo*dt)
+          
 
           craft.fac=craft.rotation()+90
           craft.vag=craft.displace.angleDeg()
@@ -541,14 +542,13 @@
           craft.jet('Right',false)
         }
 
-        // if(UI.isPress('s')){
-        //   craft.jet('br',true)
-        //   craft.jet('bl',true)
-        // }
-        // else{
-        //   craft.jet('br',false)
-        //   craft.jet('bl',false)
-        // }
+        if(UI.isPress('s')){
+          craft.jet('br',true)
+          craft.jet('bl',true)
+        }else{
+          craft.jet('br',false)
+          craft.jet('bl',false)
+        }
 
         if(UI.isPress('a')){
           craft.jet('mr',true)
@@ -576,8 +576,8 @@
             runway.checkpoint[pg].visible(false)
             game.progress+=1
           }
-          UI.print("time = "+game.time)
-        }
+          UI.print("time = "+game.time+"<br>"+craft.accelera+"<br>"+craft.velocity+"<br>"+craft.displace)
+          }
 
         space.batchDraw()         
       }
