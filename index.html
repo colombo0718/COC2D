@@ -64,6 +64,7 @@
         craft.accelera=new Victor()
         craft.velocity=new Victor()
         craft.displace=new Victor()
+        craft.position=new Victor()
 
         craft.inertia=0
         craft.torquSum=0
@@ -98,10 +99,38 @@
           craft.massCent.add( model.unite[i])
         }  
         craft.radius/=craft.mass
+        r=craft.radius
         craft.massCent.divideScalar(craft.mass)
         // console.log(craft.radius+"\n"+craft.massCent.toString())
         craft.offsetX(craft.massCent.x)
         craft.offsetY(craft.massCent.y)
+
+        var cyanCircle = new Konva.Circle({
+          x:craft.massCent.x,
+          y:craft.massCent.y,
+          radius: r*2,
+          stroke: '#0ff',
+          strokeWidth: .2,
+        });
+        craft.add(cyanCircle)
+
+        var cyanArrow = new Konva.Line({
+          x:craft.massCent.x,
+          y:craft.massCent.y,
+          points: [r,r*3, 0,r*6,-r,r*3, r,r*3],
+          stroke: '#0ff',
+          strokeWidth: .2
+        });
+        craft.add(cyanArrow)
+
+        var cyanBox = new Konva.Line({
+          x:craft.massCent.x,
+          y:craft.massCent.y,
+          points: [r*3,r*2, r*3,0, -r*3,0, -r*3,r*2],
+          stroke: '#0ff',
+          strokeWidth: .2
+        });
+        craft.add(cyanBox)
 
         for(var i=0;i<model.unite.length;i++){
           var p=new Victor(model.unite[i].x,model.unite[i].y);
@@ -158,8 +187,11 @@
           craft.velocity = craft.velocity.add(craft.accelera.clone().multiplyScalar(dt))
           craft.rotaVelo+= craft.rotaAcce*dt
           craft.displace = craft.velocity.clone().multiplyScalar(dt)
-          craft.x(craft.x()+craft.displace.x)
-          craft.y(craft.y()+craft.displace.y)
+          // craft.x(craft.x()+craft.displace.x)
+          // craft.y(craft.y()+craft.displace.y)
+          craft.position = craft.position.add(craft.displace)
+          craft.x(craft.position.x)
+          craft.y(craft.position.y)
           craft.rotation(craft.rotation()+craft.rotaVelo*dt)
           
 
@@ -264,7 +296,7 @@
           runway.checkpoint[i].fac=route.spot[i].fac
           var redArrow = new Konva.Line({
             points: [4,2, 10,0, 4,-2, 4,2],
-            stroke: '#f0f',
+            stroke: '#ff0',
             strokeWidth: .5,
             rotation:route.spot[i].fac
           });
@@ -274,7 +306,7 @@
             innerRadius: 4,
             outerRadius: 8,
             angle: 30,
-            stroke: '#0ff',
+            stroke: '#ff0',
             strokeWidth: .5,
             rotation:route.spot[i].vag-15
           });
@@ -283,7 +315,7 @@
           var whiteHexagon = new Konva.RegularPolygon({
             sides: 6,
             radius:6 ,
-            stroke: '#ccc',
+            stroke: '#ff0',
             strokeWidth: .5
           });
 
@@ -401,7 +433,7 @@
           // console.log(eve.pageX,eve.pageY,eve.buttons,eve)
           if(eve.buttons==1){
             space.offsetX(space.offsetX()-eve.movementX/space.scale().x)
-            space.offsetY(space.offsetY()-eve.movementY/space.scale().x)
+            space.offsetY(space.offsetY()+eve.movementY/space.scale().x)
           }
           // if(eve.buttons==2){
           //   field.rotation(field.rotation()-eve.movementX/10)
@@ -409,9 +441,9 @@
         }
         UI.wheelReact=function(eve){
           if(eve.wheelDelta>0&& space.scale().x<5){
-            space.scale({x:space.scale().x+.5 , y:space.scale().y+.5})
+            space.scale({x:space.scale().x+.5 , y:space.scale().y-.5})
           }else if(eve.wheelDelta<0 && space.scale().x>1.5){
-            space.scale({x:space.scale().x-.5 , y:space.scale().y-.5})
+            space.scale({x:space.scale().x-.5 , y:space.scale().y+.5})
           }
           console.log(space.scale().x,space.scale().y)
         }
@@ -425,17 +457,8 @@
         }
         UI.keyState={
           // 'a':false,'b':false,'c':false,
-          // 'd':false,'e':false,'f':false,
-          // 'g':false,'h':false,'i':false,
-          // 'j':false,'k':false,'l':false,
-          // 'm':false,'n':false,'o':false,
-          // 'p':false,'q':false,'r':false,
-          // 's':false,'t':false,'u':false,
-          // 'v':false,'w':false,'x':false,
-          // 'y':false,'z':false,' ':false,
         }
         UI.isPress=function(key){
-          // if(UI.keyState[key]==null){UI.keyState[key]=false}
           return UI.keyState[key]
         }
 
@@ -467,29 +490,23 @@
           y: height/2,
           width: width,
           height: height,
-          scale:{x:3,y:3}
+          scale:{x:3,y:-3}
         });
 
-        field = new Konva.Layer({scale:{x:1,y:-1}});
+        field = new Konva.Layer({scale:{x:1,y: 1}});
         space.add(field);
 
-        craft=buildCraft(kernal)
+        // craft=buildCraft(kernal)
         // craft=buildCraft(double)
-        // craft=buildCraft(fighter)
+        craft=buildCraft(fighter)
 
         plane=buildPlane(-2,-1,2,3)
-        runway=buildRunway(route_1)
+
+        // runway=buildRunway(route_sample)
+        // runway=buildRunway(route_1)
+        runway=buildRunway(route_2)
 
         UI.work()
-
-        UI.print('hello world')
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
-        UI.print("craft mass = "+craft.mass)
       }
 
       game.setup=function(){
@@ -519,14 +536,14 @@
 
         // user control region
         
-        craft.jet('up',false)
-        craft.jet('down',false)
-        craft.jet('left',false)
-        craft.jet('right',false)
-        if(UI.isPress('w')){craft.jet('up',true)}
-        if(UI.isPress('s')){craft.jet('down',true)}
-        if(UI.isPress('a')){craft.jet('left',true)}
-        if(UI.isPress('d')){craft.jet('right',true)}
+        // craft.jet('up',false)
+        // craft.jet('down',false)
+        // craft.jet('left',false)
+        // craft.jet('right',false)
+        // if(UI.isPress('w')){craft.jet('up',true)}
+        // if(UI.isPress('s')){craft.jet('down',true)}
+        // if(UI.isPress('a')){craft.jet('left',true)}
+        // if(UI.isPress('d')){craft.jet('right',true)}
 
         // craft.jet('fRight',false)
         // craft.jet('fLeft',false)
@@ -550,44 +567,44 @@
         //   craft.jet('bRight',true)
         // }
 
-        // craft.jet('Major',false)
-        // craft.jet('Left',false)
-        // craft.jet('Right',false)
-        // craft.jet('br',false)
-        // craft.jet('bl',false)
-        // craft.jet('mr',false)
-        // craft.jet('ml',false)
-        // craft.jet('or',false)
-        // craft.jet('ol',false)
+        craft.jet('Major',false)
+        craft.jet('Left',false)
+        craft.jet('Right',false)
+        craft.jet('br',false)
+        craft.jet('bl',false)
+        craft.jet('mr',false)
+        craft.jet('ml',false)
+        craft.jet('or',false)
+        craft.jet('ol',false)
 
-        // if(UI.isPress('w')){
-        //   craft.jet('Major',true)
-        //   craft.jet('Left',true)
-        //   craft.jet('Right',true)
-        //   craft.jet('mr',true)
-        //   craft.jet('ml',true)
-        // }
+        if(UI.isPress('w')){
+          craft.jet('Major',true)
+          craft.jet('Left',true)
+          craft.jet('Right',true)
+          craft.jet('mr',true)
+          craft.jet('ml',true)
+        }
 
-        // if(UI.isPress('s')){
-        //   craft.jet('br',true)
-        //   craft.jet('bl',true)
-        //   craft.jet('or',true)
-        //   craft.jet('ol',true)
-        // }
+        if(UI.isPress('s')){
+          craft.jet('br',true)
+          craft.jet('bl',true)
+          craft.jet('or',true)
+          craft.jet('ol',true)
+        }
 
-        // if(UI.isPress('a')){
-        //   craft.jet('mr',true)
-        //   craft.jet('bl',true)
-        //   craft.jet('Right',true)
-        //   craft.jet('ol',true)
-        // }
+        if(UI.isPress('a')){
+          craft.jet('mr',true)
+          craft.jet('bl',true)
+          craft.jet('Right',true)
+          craft.jet('ol',true)
+        }
 
-        // if(UI.isPress('d')){
-        //   craft.jet('ml',true)
-        //   craft.jet('br',true)
-        //   craft.jet('Left',true)
-        //   craft.jet('or',true)
-        // }
+        if(UI.isPress('d')){
+          craft.jet('ml',true)
+          craft.jet('br',true)
+          craft.jet('Left',true)
+          craft.jet('or',true)
+        }
 
         if(pg<runway.checkpoint.length){
           runway.plotGuideLine(craft,pg)
@@ -596,7 +613,7 @@
             runway.checkpoint[pg].visible(false)
             game.progress+=1
           }
-          UI.print("time = "+game.time+"<br>"+craft.accelera+"<br>"+craft.velocity+"<br>"+craft.displace)
+          UI.print("time = "+game.time+"<br>"+craft.position+"<br>"+craft.velocity)
           }
 
         space.batchDraw()         
