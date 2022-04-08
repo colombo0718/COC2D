@@ -496,9 +496,9 @@
         field = new Konva.Layer({scale:{x:1,y: 1}});
         space.add(field);
 
-        // craft=buildCraft(kernal)
+        craft=buildCraft(kernal)
         // craft=buildCraft(double)
-        craft=buildCraft(fighter)
+        // craft=buildCraft(fighter)
 
         plane=buildPlane(-2,-1,2,3)
 
@@ -536,14 +536,14 @@
 
         // user control region
         
-        // craft.jet('up',false)
-        // craft.jet('down',false)
-        // craft.jet('left',false)
-        // craft.jet('right',false)
-        // if(UI.isPress('w')){craft.jet('up',true)}
-        // if(UI.isPress('s')){craft.jet('down',true)}
-        // if(UI.isPress('a')){craft.jet('left',true)}
-        // if(UI.isPress('d')){craft.jet('right',true)}
+        craft.jet('up',false)
+        craft.jet('down',false)
+        craft.jet('left',false)
+        craft.jet('right',false)
+        if(UI.isPress('w')){craft.jet('up',true)}
+        if(UI.isPress('s')){craft.jet('down',true)}
+        if(UI.isPress('a')){craft.jet('left',true)}
+        if(UI.isPress('d')){craft.jet('right',true)}
 
         // craft.jet('fRight',false)
         // craft.jet('fLeft',false)
@@ -567,44 +567,44 @@
         //   craft.jet('bRight',true)
         // }
 
-        craft.jet('Major',false)
-        craft.jet('Left',false)
-        craft.jet('Right',false)
-        craft.jet('br',false)
-        craft.jet('bl',false)
-        craft.jet('mr',false)
-        craft.jet('ml',false)
-        craft.jet('or',false)
-        craft.jet('ol',false)
+        // craft.jet('Major',false)
+        // craft.jet('Left',false)
+        // craft.jet('Right',false)
+        // craft.jet('br',false)
+        // craft.jet('bl',false)
+        // craft.jet('mr',false)
+        // craft.jet('ml',false)
+        // craft.jet('or',false)
+        // craft.jet('ol',false)
 
-        if(UI.isPress('w')){
-          craft.jet('Major',true)
-          craft.jet('Left',true)
-          craft.jet('Right',true)
-          craft.jet('mr',true)
-          craft.jet('ml',true)
-        }
+        // if(UI.isPress('w')){
+        //   craft.jet('Major',true)
+        //   craft.jet('Left',true)
+        //   craft.jet('Right',true)
+        //   craft.jet('mr',true)
+        //   craft.jet('ml',true)
+        // }
 
-        if(UI.isPress('s')){
-          craft.jet('br',true)
-          craft.jet('bl',true)
-          craft.jet('or',true)
-          craft.jet('ol',true)
-        }
+        // if(UI.isPress('s')){
+        //   craft.jet('br',true)
+        //   craft.jet('bl',true)
+        //   craft.jet('or',true)
+        //   craft.jet('ol',true)
+        // }
 
-        if(UI.isPress('a')){
-          craft.jet('mr',true)
-          craft.jet('bl',true)
-          craft.jet('Right',true)
-          craft.jet('ol',true)
-        }
+        // if(UI.isPress('a')){
+        //   craft.jet('mr',true)
+        //   craft.jet('bl',true)
+        //   craft.jet('Right',true)
+        //   craft.jet('ol',true)
+        // }
 
-        if(UI.isPress('d')){
-          craft.jet('ml',true)
-          craft.jet('br',true)
-          craft.jet('Left',true)
-          craft.jet('or',true)
-        }
+        // if(UI.isPress('d')){
+        //   craft.jet('ml',true)
+        //   craft.jet('br',true)
+        //   craft.jet('Left',true)
+        //   craft.jet('or',true)
+        // }
 
         if(pg<runway.checkpoint.length){
           runway.plotGuideLine(craft,pg)
